@@ -28,72 +28,70 @@
 \section{\faUsers\ 工作经历}
 
 \datedsubsection{\textbf{阿里巴巴达摩院语音实验室} 杭州}{2019年1月 -- 2019年5月}
-neural vocoder技术验证及上线.完成wavenet和lpcnet两种neural vocoder的技术验证.同时完成tacotron lpcnet上线工作.相比tacotron griffinlim模型,mos从4.131提高到4.197(recording 4.215),相似度mos从2.74提高到3.42(recodrding 3.9)
+neural vocoder技术验证及上线。完成wavenet和lpcnet两种neural vocoder的技术验证。同时完成tacotron lpcnet上线工作。相比tacotron griffinlim模型, tacotron lpcnet的mos从4.131提高到4.197(recording 4.215),相似度mos从2.74提高到3.42(recodrding 3.9)
 \begin{itemize}
-  \item wavenet.对训练数据做精确对齐,实现upsample层,修改dilation层结构,并使用特殊的初始化方式,使得wavenet达到自然音质.将模型结构从30层压缩到12层,大大减少计算量
-  \item lpcnet.编写tacotron lpcnet的训练pipeline,并调优tacotron结构,使tacotron lpcnet mos分超过tacotron griffinlim.解决特征提取数值不稳定问题以及句首噪音问题.针对部分效果不好的speaker,更换lpcnet特征中的pitch和pitch corelation为getf0的pitch和nccf,使其获得稳定的结果
-  \item tacotron lpcnet上线.对lpcnet进行流式优化,替换fft库为mkl fft,并封装接口,目前tacotron lpcnet已稳定服务.
+  \item wavenet。对训练数据做精确对齐,实现upsample层,修改dilation层结构,并使用特殊的初始化方式,使得wavenet达到自然音质。将模型结构从30层压缩到12层,大大减少计算量
+  \item lpcnet。a) 编写tacotron lpcnet的训练pipeline,并调优tacotron结构,使tacotron lpcnet mos分超过tacotron griffinlim。b) 解决特征提取数值不稳定问题以及句首噪音问题。c) 针对部分效果不好的speaker,更换lpcnet特征中的pitch和pitch corelation为getf0的pitch和nccf,使其获得稳定的结果
+  \item tacotron lpcnet上线。调整模型结构完成tacotron qps优化, lpcnet速度优化。并对lpcnet进行流式优化,封装接口并集成,目前tacotron lpcnet已稳定服务。
 \end{itemize}
 
 \datedsubsection{\textbf{阿里巴巴达摩院语音实验室} 杭州}{2018年10月 -- 2018年12月}
-neural tts上线.完成neural tts工程实现以及优化的所有工作，帮助neural tts上线并顺利服务. 以30字文本为例,优化后rtf从3.0降到0.1,首包延迟从18s降低到0.2s,qps从0.8提高到15.目前neural tts日均调用量1000w以上,服务稳定无coredump
+neural tts上线。完成neural tts工程实现以及优化的所有工作，帮助neural tts上线并顺利服务。以30字文本为例,优化后rtf从3.0降到0.1,首包延迟从18s降低到0.2s, qps从0.8提高到15。目前neural tts日均调用量1000w以上,服务稳定无coredump
 \begin{itemize}
-  \item 封装tensorflow decoder，阅读源码解决tensorflow framework部分无法打包问题．完成引擎neural tts全链路开发，包含前端特征，模型inference封装，tacotron合成方式整个链路代码编写，并支持各个主要参数可配置
-  \item 流式优化. a) 在不重新训练的情况下，创造性地将encoder,decoder拆分成两个图; b)模型流式inference.encoder将整句文本进行编码,decoder解码时,不仅获取decoder输出,同时对decoder各个状态进行缓存,在下次decoder时输入状态即可恢复context; c) griffinlim流式优化.实现并优化流式griffinlim算法
-  \item inference速度优化. a) rtf优化.用c++重新实现griffinlim,通过共享内存,指令集优化,向量化等方式,将griffinlim的rtf从2.85降到0.075. b) qps优化.通过mkl fft精度优化,长向量运算优化, 解决服务端压测并发远低于理论值的问题
+  \item 引擎集成。封装tensorflow decoder，阅读源码解决tensorflow framework部分无法打包问题。完成引擎neural tts全链路开发，包含前端特征、模型inference封装、tacotron合成方式整个链路代码编写，并支持各个主要参数可配置
+  \item inference速度优化。 a) rtf优化。用c++重新实现griffinlim,通过共享内存、指令集优化、向量化等方式,将griffinlim的rtf从2.85降到0.075； b) qps优化。通过mkl fft精度优化,长向量运算优化, 解决服务端压测并发远低于理论值的问题
+  \item 流式优化。a) 在不重新训练的情况下，创造性地将encoder、decoder拆分成两个图; b)模型流式inference。encoder将整句文本进行编码,decoder解码时,不仅获取decoder输出,同时对decoder各个状态进行缓存,在下次decoder时输入状态即可恢复context; c) griffinlim流式优化。实现并优化流式griffinlim算法
 \end{itemize}
 
 \datedsubsection{\textbf{阿里巴巴达摩院语音实验室} 杭州}{2018年7月 -- 2018年9月}
-singing tts研发.完成singing tts从数据到算法整个链路研发,效果得到天猫精灵认可.目前离线已输出给夸克宝宝上线
+singing tts研发。完成singing tts从数据到算法整个链路研发,效果得到天猫精灵认可。目前离线结果已在夸克宝宝上线
 \begin{itemize}
-  \item 音库建设.完成singing tts相关查错,预处理工具,确保数据得到准确标注.通过人工和工具结合的方式对数据进行校对,完成100首音库建设.
-  \item 编写代码对音乐结构进行分析,构造music full context特征,对滑音进行特殊处理,并对声韵母在节奏点上的时长分配进行建模.
-  \item 使用phone对齐信息对midi边界进行校正,用expand的文本特征与music特征进行拼接,并采用diff f0进行建模.最终在集外歌曲的合成效果获得业务方肯定
+  \item 前期工作。调研singing tts方案。通过反复沟通、协调,找到价格合适、效果满意的供应商。制定录音标准、标注标准,并对相关人员进行培训。
+  \item 音库建设。完成singing tts相关查错,预处理工具,确保数据得到准确标注。通过人工和工具结合的方式对数据进行校对,完成100首音库建设。
+  \item 特征解析。编写代码对音乐结构进行分析,构造music full context特征,对滑音进行特殊处理,并使用phone对齐信息对midi边界进行校正。
+  \item 模型。对声韵母在节奏点上的时长分配进行建模。用expand的文本特征与music特征进行拼接,并采用diff f0进行建模。最终在集外歌曲的合成效果获得业务方肯定
 \end{itemize}
 
 \datedsubsection{\textbf{阿里巴巴达摩院语音实验室} 杭州}{2018年6月 -- 2019年4月}
-引擎能力提升.完成效果器研发,引擎流式改造.并作为引擎owner,负责tts引擎日常功能开发,线上故障修复,代码合并,上线保障.
+引擎能力提升。完成效果器研发,引擎流式改造。并作为引擎owner,负责tts引擎日常功能开发、线上故障修复、代码合并、上线保障。
 \begin{itemize}
-  \item 效果器研发.提供十种以上效果器,支持效果器的任意组合.提升引擎多样性.
-  \item 流式改造.修改引擎所有后处理为流式,包括agc,soundeffect, sox效果器流式研发.使得计算量较大的算法使用流式服务成为可能.修改nn算法流式,首包延迟降低一半以上
-  \item 梳理整个引擎依赖项,编写cmake支持.使用cmake编译系统,编译时间从30分钟减少到30s,大大提高开发效率
-  \item 负责personal tts运行时开发,支持voice font动态可插拔.
+  \item 效果器研发。提供十种以上效果器,支持效果器的任意组合，提升引擎多样性
+  \item 流式改造。修改引擎所有后处理为流式,包括agc、soundeffect、sox效果器流式研发。使得计算量较大的算法使用流式服务成为可能。修改nn算法流式,首包延迟降低一半以上
+  \item cmake编译系统。梳理整个引擎依赖项,编写cmake支持。使用cmake编译系统,编译时间从30分钟减少到30s,大大提高开发效率
+  \item 引擎日常开发。负责personal tts运行时开发,支持voice font动态可插拔。合并代码，线上coredump修复，并补全单元测试，保障上线安全
 \end{itemize}
 
-\datedsubsection{\textbf{幻世网络} 厦门}{2015年9月 -- 2018年5月}
-从零开始搭建参数语音合成系统.完成从数据到上线整个链路的研发工作.蜡笔小新,海绵宝宝等效果处于国内领先水平.
+\datedsubsection{\textbf{厦门幻世网络科技有限公司} 厦门}{2015年9月 -- 2018年5月}
+从零开始搭建参数语音合成系统。完成从数据到上线整个链路的研发工作。蜡笔小新、海绵宝宝等效果处于国内领先水平。已在活照片app上线
 \begin{itemize}
-  \item 调研语音合成方案,设计不同的phoneset,录音方式,表达方式
-  \item 编写文本数据抽取，录音工具以及标注工具.
+  \item 调研语音合成方案,设计不同的phoneset、录音方式、表达方式。编写文本数据抽取、录音工具以及标注工具
   \item 提出文本在句中位置与音调相关的context feature,大大提升蜡笔小新等speaker的自然度
-  \item 编写自动对齐, dnn训练pipeline, c++引擎,完成从数据到上线整个链路的研发工作.
-  \item 基于ivector的voice clone.在不同speaker的full context特征中并入ivector以训练multi speaker模型
-  \item 情感化tts系统研发.探索情绪传输的可能性. wavenet, singing tts, tacotron等前沿方向探索.
-  \item dnn效果调优.根据不同speaker音色,使用不同的f0提取算法.尝试二值网络, svd分解等对网络进行压缩.
-  \item 前端优化.用crf, lstm等算法优化分词,词性标注结果.解决多音字问题.
+  \item 编写自动对齐、dnn训练pipeline、c++引擎,完成从数据到上线整个链路的研发工作
+  \item 前端优化。用crf、lstm等算法优化分词,词性标注结果。解决多音字问题
+  \item 前沿探索。a) 基于ivector的voice clone。在不同speaker的full context特征中并入ivector以训练multi speaker模型; b)  情感化tts系统研发。探索情绪传输的可能性; c) wavenet、tacotron等前沿方向探索; d) 尝试二值网络、svd分解等对网络进行压缩
   \item 积累一定的项目领导经验。团队成员包括三个算法研究员，三个配音演员
 \end{itemize}
 
-\datedsubsection{\textbf{幻世网络} 厦门}{2017年7月 -- 2018年5月}
+\datedsubsection{\textbf{厦门幻世网络科技有限公司} 厦门}{2017年7月 -- 2018年5月}
 物体检测, ocr
 \begin{itemize}
-  \item 物体检测.深入调研ssd,yolo2,faster rcnn算法, 基于yolo2优化网络结构,最终在移动端达到15fps, 模型8M. IoU 0.5情况下coco 31.2mAP
-  \item ocr. a) 中文ocr训练数据合成 b) 基于mxnet实现textboxes,crnn模型并调优化 c) 完成mxnet模型转ncnn, 并在android端进行部署调优
+  \item 物体检测。深入调研ssd、yolo2、faster rcnn算法, 基于yolo2进行网络结构优化,并编写ncnn模型转换和region层,最终在移动端达到25fps, 模型大小8M。IoU 0.5情况下coco 31.2mAP
+  \item ocr。 a) 中文ocr训练数据合成; b) 基于mxnet实现textboxes、crnn模型并调优化; c) 完成mxnet模型转ncnn,通过插入或者删除某些层来实现不同框架的兼容,并在android端进行部署调优
 \end{itemize}
 
-\datedsubsection{\textbf{幻世网络} 厦门}{2014年6月 -- 2015年9月}
+\datedsubsection{\textbf{厦门幻世网络科技有限公司} 厦门}{2014年6月 -- 2015年9月}
 人脸检测，人脸特征点定位，人脸美化
 \begin{itemize}
-  \item 人脸检测.优化人脸检测算法,提高检测准确率.
-  \item 人脸特征点定位.实现基于regression tree及cnn的人脸特征点定位算法,并根据业务场景对模型进行裁剪,减小模型大小,使其成功应用于移动端
-  \item 人脸美化.实现了多种磨皮，光照均匀算法
+  \item 人脸检测。优化人脸检测算法,提高检测准确率.
+  \item 人脸特征点定位。实现基于regression tree及cnn的人脸特征点定位算法,并根据业务场景对模型进行裁剪,减小模型大小,使其成功应用于移动端
+  \item 人脸美化。实现了多种磨皮，光照均匀算法
 \end{itemize}
 
 \section{\faCogs\ 技术栈}
 % increase linespacing [parsep=0.5ex]
 \begin{itemize}[parsep=0.5ex]
-  \item 编程语言: c++, python, java
-  \item 框架: mxnet, kaldi, tensorflow
+  \item 编程语言: c++, python, shell, java
+  \item 框架: mxnet, tensorflow, ncnn
 \end{itemize}
 
 \section{\faHeartO\ 获奖情况}
@@ -106,7 +104,7 @@ singing tts研发.完成singing tts从数据到算法整个链路研发,效果�
 % increase linespacing [parsep=0.5ex]
 \begin{itemize}[parsep=0.5ex]
   \item 技术博客: http://vsooda.github.io
-  \item 开源项目: mxnet, kaldi contributor
+  \item 开源项目: mxnet, ncnn contributor
 \end{itemize}
 
 \end{document}
